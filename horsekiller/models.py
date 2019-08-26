@@ -31,19 +31,21 @@ class Medicine(models.Model):
 class Species(models.Model):
     race = models.CharField(max_length=256)
 
-class Diagnostic(models.Model):
-    # wywiad, zachowania się, zmiany przy badaniu, badania dot., zdjęcia przypadków, diagnostyka różnicowa
-    interview = models.TextField()
-    behaviour = models.TextField()
-    new_behaviour_changes = models.ForeignKey(BehaviourChanges)
-    additional_examination = models.ForeignKey(AdditionalExamination)
-    # photo_examples = models.  TODO how to add pics to database?
-    differential_diagnosis = models.TextField()
-
 class BehaviourChanges(models.Model):
     # w jakim układzie, jak stwierdzone
     which_system = models.TextField()
     verification = models.TextField()
+
+class Diagnostic(models.Model):
+    # wywiad, zachowania się, zmiany przy badaniu, badania dot., zdjęcia przypadków, diagnostyka różnicowa
+    interview = models.TextField()
+    behaviour = models.TextField()
+    # new_behaviour_changes = models.ForeignKey(BehaviourChanges)
+    # additional_examination = models.ForeignKey(AdditionalExamination)
+    # photo_examples = models.  TODO how to add pics to database?
+    differential_diagnosis = models.TextField()
+
+
 
 class AdditionalExamination(models.Model):
     # zmiany krwi, zmiany moczu, zmiany anatopatomorfologiczne, kał, inne
