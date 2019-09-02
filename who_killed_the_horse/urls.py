@@ -20,5 +20,5 @@ from horsekiller import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    path('', views.HorseKillerView)
+    path('', views.HorseKillerIndexView.as_view(), name='horsekiller-view')
 ]
