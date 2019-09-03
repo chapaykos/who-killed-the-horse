@@ -24,6 +24,13 @@ class RegisterView(View):
         return render(request, 'users/register.html', {'form': form})
 
 
+class ProfileView(View):
+    def get(self, request):
+        if request.user.is_authenticated:
+            return render(request, 'users/profile.html')
+        else:
+            return redirect('users-login')
+
 # class LoginView(View):
 #     def get(self, request):
 #         form =
