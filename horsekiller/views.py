@@ -8,9 +8,9 @@ from django.contrib.auth.views import LoginView, LogoutView, AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, PasswordResetForm
 
 
-# Create your views here.
-
 class HorseKillerIndexView(View):
     def get(self, request):
         form = AddDiseaseForm
         return render(request, 'horsekiller/index.html', {'form': form})
+    def post(self, request):
+        form = AddDiseaseForm(request.POST)
