@@ -1,4 +1,7 @@
 {% extends 'horsekiller/base.html' %}
+{% load %}
 {% block content %}
     <h1>Wiem kto go zabił! To był:</h1>
+    {{ form.as_p }}
+    <input type="submit" name="submit">
 {% endblock content %}
