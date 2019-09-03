@@ -5,5 +5,5 @@ from horsekiller import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    path('', views.HorseKillerIndexView.as_view(), name='horsekiller-home')
+    path('', views.HorseKillerIndexView.as_view(), name='horsekiller-home'),
 ]

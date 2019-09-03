@@ -16,9 +16,10 @@
     {% endif %}
 </head>
 <body>
-<div class="site-header">
-    <h1><a href="{% url 'horsekiller-home' %}">Kto Zabił Konia?</a> </h1>
-</div>
+<div class="site-header" style="padding-left: 20px">
+        <h1 style="display: inline-block"><a href="{% url 'horsekiller-home' %}">Kto zabił konia?</a></h1>
+        <p style='text-align: right; padding-right: 20px'>Witaj {% if user.username %} {{ user.username }} {% else %} anonimowy! {% endif %} <a href="">Loguj się!</a> | <a href="">Rejestruj się!</a> </p>
+    </div>
 <div class="container">
     {% block content %}
     {% endblock %}

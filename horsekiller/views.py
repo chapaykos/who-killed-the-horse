@@ -14,3 +14,4 @@ class HorseKillerIndexView(View):
         return render(request, 'horsekiller/index.html', {'form': form})
     def post(self, request):
         form = AddDiseaseForm(request.POST)
+
