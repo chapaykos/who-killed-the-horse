@@ -1,0 +1,12 @@
+{% extends 'horsekiller/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <h1>Wiem kto go zabił! To był:</h1>
+    <div class="form-group">
+        <form method="post">
+            {{ form|crispy }}
+            <input type="submit" name="submit">
+        </form>
+    </div>
+
+{% endblock content %}

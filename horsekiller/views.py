@@ -10,8 +10,6 @@ from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, Pass
 
 class HorseKillerIndexView(View):
     def get(self, request):
-        form = AddDiseaseForm
-        return render(request, 'horsekiller/index.html', {'form': form})
-    def post(self, request):
-        form = AddDiseaseForm(request.POST)
+        return render(request, 'horsekiller/index.html')
+
 

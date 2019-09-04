@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from users.models import Profile
+from taggit.managers import TaggableManager
 
 SPECIES = {
 
@@ -11,7 +13,17 @@ DISEASE_PROCESS = {
 }
 
 
-class Disease(models.Model):
+class CommonInfo(models.Model):
+    author = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    favourite = models.ManyToManyField('Profile')
+    tags = TaggableManager()
+    likes = models.IntegerField()
+
+    class Meta:
+        abstract = True
+
+
+class Disease(CommonInfo):
     name_pl = models.CharField(max_length=256)
     name_lat = models.CharField(max_length=256)
     name_en = models.CharField(max_length=256)
@@ -26,26 +38,30 @@ class Disease(models.Model):
     species = models.ForeignKey('Species', on_delete=models.DO_NOTHING)
 
 
-class Diagnostics(models.Model):
+class Diagnostics(CommonInfo):
     interview = models.ForeignKey('Interview', on_delete=models.DO_NOTHING)
     interview_text = models.TextField()
     changes_during_research = models.ForeignKey('ChangesDuringResearch', on_delete=models.DO_NOTHING)
     behaviour = models.ForeignKey('Behaviour', on_delete=models.DO_NOTHING)
     behaviour_text = models.TextField()
-    # incident_photos = models.ImageField() #TODO jak załączać obrazki?
+    incident_photos = models.ForeignKey('DiagnosticsPhotos', on_delete=models.DO_NOTHING)
     # differential_diagnosis = models.ForeignKey('Disease', on_delete=models.DO_NOTHING) #TODO Odwrócona relacja, co robić?
     additional_check_up = models.ForeignKey('AdditionalCheckUp', on_delete=models.DO_NOTHING)
 
 
-class Interview(models.Model):
+class DiagnosticsPhotos(CommonInfo):
+    incident_photos = models.ImageField(upload_to='incident_photos')
+
+
+class Interview(CommonInfo):
     interview = models.CharField(max_length=256)
 
 
-class Behaviour(models.Model):
+class Behaviour(CommonInfo):
     behaviour = models.CharField(max_length=256)
 
 
-class MedicalProcedure(models.Model):
+class MedicalProcedure(CommonInfo):
     immediate_action = models.CharField(max_length=256)
     essential_procedures = models.CharField(max_length=256)
     other_procedures_priority = models.CharField(max_length=256)
@@ -54,34 +70,34 @@ class MedicalProcedure(models.Model):
     medicine = models.ForeignKey('Medicine', on_delete=models.DO_NOTHING)
 
 
-class DiseaseProcess(models.Model):
+class DiseaseProcess(CommonInfo):
     disease_process = models.CharField(choices=DISEASE_PROCESS, max_length=256)
 
 
-class Species(models.Model):
+class Species(CommonInfo):
     species = models.CharField(choices=SPECIES, max_length=256)
     race = models.ForeignKey('Race', on_delete=models.DO_NOTHING)
 
 
-class Race(models.Model):
+class Race(CommonInfo):
     race = models.CharField(max_length=256)
 
 
-class ChangesDuringResearch(models.Model):
+class ChangesDuringResearch(CommonInfo):
     system = models.ForeignKey('CDRSystem', on_delete=models.DO_NOTHING)
     detection_method = models.ForeignKey('CDRDetectionMethod', on_delete=models.DO_NOTHING)
     detection_method_text = models.TextField()
 
 
-class CDRSystem(models.Model):
+class CDRSystem(CommonInfo):
     system = models.CharField(max_length=256)
 
 
-class CDRDetectionMethod(models.Model):
+class CDRDetectionMethod(CommonInfo):
     detection_method = models.CharField(max_length=256)
 
 
-class AdditionalCheckUp(models.Model):
+class AdditionalCheckUp(CommonInfo):
     blood_changes = models.ForeignKey('BloodChanges', on_delete=models.DO_NOTHING)
     urine_changes = models.ForeignKey('UrineChanges', on_delete=models.DO_NOTHING)
     feces = models.ForeignKey('Feces', on_delete=models.DO_NOTHING)
@@ -89,30 +105,30 @@ class AdditionalCheckUp(models.Model):
     other = models.TextField()
 
 
-class BloodChanges(models.Model):
+class BloodChanges(CommonInfo):
     blood_changes = models.CharField(max_length=256)
 
 
-class UrineChanges(models.Model):
+class UrineChanges(CommonInfo):
     urine_changes = models.CharField(max_length=256)
 
 
-class Feces(models.Model):
+class Feces(CommonInfo):
     feces = models.CharField(max_length=256)
 
 
-class AnatPatMorChanges(models.Model):
+class AnatPatMorChanges(CommonInfo):
     anat_pat_mor_changes = models.CharField(max_length=256)
 
 
-class Treatment(models.Model):
+class Treatment(CommonInfo):
     name = models.CharField(max_length=256)
     medicine_anesthetic = models.ForeignKey('Medicine', on_delete=models.DO_NOTHING)
     notices = models.TextField()
     off_treatment_procedures = models.TextField()
 
 
-class Medicine(models.Model):
+class Medicine(CommonInfo):
     medicine_group = models.ForeignKey('MedicineGroup', on_delete=models.DO_NOTHING)
     recommendations = models.ForeignKey('MedicineRecommendations', on_delete=models.DO_NOTHING)
     contradictions = models.ForeignKey('MedicineContradictions', on_delete=models.DO_NOTHING)
@@ -126,29 +142,29 @@ class Medicine(models.Model):
     medicine_application = models.CharField(max_length=256)
 
 
-class MedicineGroup(models.Model):
+class MedicineGroup(CommonInfo):
     medicine_group = models.CharField(max_length=256)
 
 
-class MedicineRecommendations(models.Model):
+class MedicineRecommendations(CommonInfo):
     recommendations = models.CharField(max_length=256)
 
 
-class MedicineContradictions(models.Model):
+class MedicineContradictions(CommonInfo):
     contradictions = models.CharField(max_length=256)
 
 
-class MedicineSideEffects(models.Model):
+class MedicineSideEffects(CommonInfo):
     side_effects = models.CharField(max_length=256)
 
 
-class MedicineOverdose(models.Model):
+class MedicineOverdose(CommonInfo):
     overdose = models.CharField(max_length=256)
 
 
-class MedicineAlternative(models.Model):
+class MedicineAlternative(CommonInfo):
     alternative = models.CharField(max_length=256)
 
 
-class MedicineMarketNames(models.Model):
+class MedicineMarketNames(CommonInfo):
     market_names = models.CharField(max_length=256)
