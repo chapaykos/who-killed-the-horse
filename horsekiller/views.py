@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.core import paginator
 from .models import *
 from django.views import View
-from .forms import AddDiseaseForm
+from .forms import *
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, LogoutView, AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, PasswordResetForm

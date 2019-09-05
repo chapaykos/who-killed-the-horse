@@ -15,7 +15,7 @@ DISEASE_PROCESS = {
 
 class CommonInfo(models.Model):
     author = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    favourite = models.ManyToManyField('Profile')
+    favourite = models.ManyToManyField(Profile)
     tags = TaggableManager()
     likes = models.IntegerField()
 
