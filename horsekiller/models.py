@@ -15,9 +15,8 @@ DISEASE_PROCESS = {
 
 class CommonInfo(models.Model):
     author = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    favourite = models.ManyToManyField(Profile)
-    tags = TaggableManager()
-    likes = models.IntegerField()
+    tags = TaggableManager(blank=True)
+
 
     class Meta:
         abstract = True
@@ -31,22 +30,22 @@ class Disease(CommonInfo):
     predisposition = models.CharField(max_length=256)
     remarks_comments = models.TextField()
     survivability = models.CharField(max_length=256)
-    diagnostics = models.ForeignKey("Diagnostics", on_delete=models.DO_NOTHING)
-    medical_procedure = models.ForeignKey('MedicalProcedure', on_delete=models.DO_NOTHING)
-    process = models.ForeignKey('DiseaseProcess', on_delete=models.DO_NOTHING)  # TODO Czemu Alex chce osobną tablicę?
+    diagnostics = models.ForeignKey("Diagnostics", on_delete=models.DO_NOTHING, blank=True, null=True)
+    medical_procedure = models.ForeignKey('MedicalProcedure', on_delete=models.DO_NOTHING, blank=True, null=True)
+    process = models.ForeignKey('DiseaseProcess', on_delete=models.DO_NOTHING, blank=True, null=True)  # TODO Czemu Alex chce osobną tablicę?
     disease_type = models.CharField(max_length=256)  # TODO Czemu Alex chce osobną tablicę?
-    species = models.ForeignKey('Species', on_delete=models.DO_NOTHING)
+    species = models.ForeignKey('Species', on_delete=models.DO_NOTHING, blank=True, null=True)
 
 
 class Diagnostics(CommonInfo):
-    interview = models.ForeignKey('Interview', on_delete=models.DO_NOTHING)
+    interview = models.ForeignKey('Interview', on_delete=models.DO_NOTHING, blank=True, null=True)
     interview_text = models.TextField()
-    changes_during_research = models.ForeignKey('ChangesDuringResearch', on_delete=models.DO_NOTHING)
-    behaviour = models.ForeignKey('Behaviour', on_delete=models.DO_NOTHING)
+    changes_during_research = models.ForeignKey('ChangesDuringResearch', on_delete=models.DO_NOTHING, blank=True, null=True)
+    behaviour = models.ForeignKey('Behaviour', on_delete=models.DO_NOTHING, blank=True, null=True)
     behaviour_text = models.TextField()
-    incident_photos = models.ForeignKey('DiagnosticsPhotos', on_delete=models.DO_NOTHING)
+    incident_photos = models.ForeignKey('DiagnosticsPhotos', on_delete=models.DO_NOTHING, blank=True, null=True)
     # differential_diagnosis = models.ForeignKey('Disease', on_delete=models.DO_NOTHING) #TODO Odwrócona relacja, co robić?
-    additional_check_up = models.ForeignKey('AdditionalCheckUp', on_delete=models.DO_NOTHING)
+    additional_check_up = models.ForeignKey('AdditionalCheckUp', on_delete=models.DO_NOTHING, blank=True, null=True)
 
 
 class DiagnosticsPhotos(CommonInfo):
@@ -66,8 +65,8 @@ class MedicalProcedure(CommonInfo):
     essential_procedures = models.CharField(max_length=256)
     other_procedures_priority = models.CharField(max_length=256)
     owner_recommendations = models.CharField(max_length=256)
-    treatment = models.ForeignKey('Treatment', on_delete=models.DO_NOTHING)
-    medicine = models.ForeignKey('Medicine', on_delete=models.DO_NOTHING)
+    treatment = models.ForeignKey('Treatment', on_delete=models.DO_NOTHING, blank=True, null=True)
+    medicine = models.ForeignKey('Medicine', on_delete=models.DO_NOTHING, blank=True, null=True)
 
 
 class DiseaseProcess(CommonInfo):
@@ -76,7 +75,7 @@ class DiseaseProcess(CommonInfo):
 
 class Species(CommonInfo):
     species = models.CharField(choices=SPECIES, max_length=256)
-    race = models.ForeignKey('Race', on_delete=models.DO_NOTHING)
+    race = models.ForeignKey('Race', on_delete=models.DO_NOTHING, blank=True, null=True)
 
 
 class Race(CommonInfo):
@@ -123,23 +122,23 @@ class AnatPatMorChanges(CommonInfo):
 
 class Treatment(CommonInfo):
     name = models.CharField(max_length=256)
-    medicine_anesthetic = models.ForeignKey('Medicine', on_delete=models.DO_NOTHING)
+    medicine_anesthetic = models.ForeignKey('Medicine', on_delete=models.DO_NOTHING, blank=True, null=True)
     notices = models.TextField()
     off_treatment_procedures = models.TextField()
 
 
 class Medicine(CommonInfo):
-    medicine_group = models.ForeignKey('MedicineGroup', on_delete=models.DO_NOTHING)
-    recommendations = models.ForeignKey('MedicineRecommendations', on_delete=models.DO_NOTHING)
-    contradictions = models.ForeignKey('MedicineContradictions', on_delete=models.DO_NOTHING)
-    side_effects = models.ForeignKey('MedicineSideEffects', on_delete=models.DO_NOTHING)
-    overdose = models.ForeignKey('MedicineOverdose', on_delete=models.DO_NOTHING)
-    alternative = models.ForeignKey('MedicineAlternative', on_delete=models.DO_NOTHING)
-    market_names = models.ForeignKey('MedicineMarketNames', on_delete=models.DO_NOTHING)
-    market_names_text = models.TextField()
-    alternative_text = models.TextField()
-    doses = models.CharField(max_length=256)
-    medicine_application = models.CharField(max_length=256)
+    medicine_group = models.ForeignKey('MedicineGroup', on_delete=models.DO_NOTHING, blank=True, null=True)
+    recommendations = models.ForeignKey('MedicineRecommendations', on_delete=models.DO_NOTHING, blank=True, null=True)
+    contradictions = models.ForeignKey('MedicineContradictions', on_delete=models.DO_NOTHING, blank=True, null=True)
+    side_effects = models.ForeignKey('MedicineSideEffects', on_delete=models.DO_NOTHING, blank=True, null=True)
+    overdose = models.ForeignKey('MedicineOverdose', on_delete=models.DO_NOTHING, blank=True, null=True)
+    alternative = models.ForeignKey('MedicineAlternative', on_delete=models.DO_NOTHING, blank=True, null=True)
+    market_names = models.ForeignKey('MedicineMarketNames', on_delete=models.DO_NOTHING, blank=True, null=True)
+    market_names_text = models.TextField(blank=True)
+    alternative_text = models.TextField(blank=True)
+    doses = models.CharField(max_length=256, blank=True)
+    medicine_application = models.CharField(max_length=256, blank=True)
 
 
 class MedicineGroup(CommonInfo):

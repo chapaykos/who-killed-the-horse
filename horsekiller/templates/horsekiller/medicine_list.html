@@ -1,0 +1,33 @@
+{% extends 'horsekiller/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <h1>Leki:</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+                <th>{{ Grupa Leku }}</th>
+                <th>{{ Nazwa Handlowa }}</th>
+                <th>{{ Tagi }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>John</td>
+            <td>Doe</td>
+            <td>john@example.com</td>
+        </tr>
+        <tr>
+            <td>Mary</td>
+            <td>Moe</td>
+            <td>mary@example.com</td>
+        </tr>
+        <tr>
+            <td>July</td>
+            <td>Dooley</td>
+            <td>july@example.com</td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+
+{% endblock content %}
