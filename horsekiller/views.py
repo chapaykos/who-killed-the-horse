@@ -16,6 +16,7 @@ class HorseKillerIndexView(View):
 
 class ListMedicineView(ListView):
     model = Medicine
+    context_object_name = 'medicine_list'
     fields = '__all__'
 
 
@@ -31,7 +32,10 @@ class UpdateMedicineView(UpdateView):
 
 class AddMedicineView(CreateView):
     model = Medicine
-    fields = '__all__'
+    fields = ['medicine_name', 'market_names', 'medicine_group', 'recommendations',
+              'contradictions', 'side_effects', 'overdose',
+              'alternative',
+              'doses', 'medicine_application', 'tags']
 
     def form_valid(self, form):
         form.instance.author = self.request.user

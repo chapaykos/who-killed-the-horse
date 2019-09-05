@@ -12,6 +12,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='users-login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='users-logout'),
     path('profile/', users_views.ProfileView.as_view(), name='users-profile'),
-    path('add_medicine/', horsekiller_views.AddMedicineView.as_view(), name='add_medicine'),
+    path('medicine/new/', horsekiller_views.AddMedicineView.as_view(), name='add_medicine'),
     path('medicines/', horsekiller_views.ListMedicineView.as_view(), name='list_medicine'),
+    path('medicine/<pk>/', horsekiller_views.DetailMedicineView.as_view(), name='detail_medicine'),
 ]

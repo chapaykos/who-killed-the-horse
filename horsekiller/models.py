@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from users.models import Profile
 from taggit.managers import TaggableManager
+from django.urls import reverse
 
 SPECIES = {
 
@@ -128,6 +129,7 @@ class Treatment(CommonInfo):
 
 
 class Medicine(CommonInfo):
+    medicine_name = models.CharField(max_length=256, null=True)
     medicine_group = models.ForeignKey('MedicineGroup', on_delete=models.DO_NOTHING, blank=True, null=True)
     recommendations = models.ForeignKey('MedicineRecommendations', on_delete=models.DO_NOTHING, blank=True, null=True)
     contradictions = models.ForeignKey('MedicineContradictions', on_delete=models.DO_NOTHING, blank=True, null=True)
@@ -139,6 +141,9 @@ class Medicine(CommonInfo):
     alternative_text = models.TextField(blank=True)
     doses = models.CharField(max_length=256, blank=True)
     medicine_application = models.CharField(max_length=256, blank=True)
+
+    def get_absolute_url(self):
+        return reverse('detail_medicine', kwargs={'pk': self.pk})
 
 
 class MedicineGroup(CommonInfo):

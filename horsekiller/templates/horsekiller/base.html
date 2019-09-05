@@ -65,7 +65,7 @@
         </form>
         <ul class="navbar-nav">
             <a class="nav-link">Witaj {% if user.username %}</a>
-                <a class="nav-link" href="{% url 'users-profile' %}">{{ user.username }}</a>
+                <a class="nav-link text-primary" href="{% url 'users-profile' %}">{{ user.username }}</a>
                 <a class="nav-link text-success" href="{% url 'users-logout' %}">Wyloguj się</a> {% else %} anonimowy!
                 <a class="nav-link text-success" href="{% url 'users-login' %}">Loguj się</a>
                 <a class="nav-link text-success" href="{% url 'users-register' %}">Rejestruj się</a> {% endif %}
@@ -95,13 +95,14 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 
-<div class="card-footer text-center mt-5">
+
+<hr>
+</body>
+<footer class="text-center mb-3">
     <p>Słyszałem, że to robił Oleksiy Cha-pay &copy;</p>
     <a class="" href="https://github.com/chapaykos/who-killed-the-horse"><i class="fab fa-github-alt fa-2x"
                                                                             style="color: green"></i></a>
     <a class="" href="https://www.linkedin.com/in/alexey-chapay-0b3baaa4/"><i class="fab fa-linkedin fa-2x"
                                                                               style="color: green"></i></a>
-</div>
-</body>
-
+</footer>
 </html>

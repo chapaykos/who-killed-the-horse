@@ -1,0 +1,54 @@
+{% extends 'horsekiller/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <h1 style="display: inline-block">Lek: <span style="color: green">{{ medicine.medicine_name }}</span></h1>
+    <button class="btn btn-danger float-right mx-1">Usuń</button>
+    <button class="btn btn-primary float-right mx-1">Edytuj</button>
+    <table class="table table-hover">
+        <tr>
+            <th>Grupa Leku</th>
+            <td>{{ medicine.medicine_group }}</td>
+        </tr>
+        <tr>
+            <th>Nazwy handlowe</th>
+            <td>{{ medicine.market_names }}</td>
+        </tr>
+        <tr>
+            <th>Analogi</th>
+            <td>{{ medicine.alternative }}</td>
+        </tr>
+        <tr>
+            <th>Przeciwskazania</th>
+            <td>{{ medicine.contradictions }}</td>
+        </tr>
+        <tr>
+            <th>Dawki</th>
+            <td>{{ medicine.doses }}</td>
+        </tr>
+        <tr>
+            <th>Działania niepożądanie</th>
+            <td>{{ medicine.side_effects }}</td>
+        </tr>
+        <tr>
+            <th>Wskazania</th>
+            <td>{{ medicine.recommendations }}</td>
+        </tr>
+        <tr>
+            <th>Przedawkowanie</th>
+            <td>{{ medicine.overdose }}</td>
+        </tr>
+        <tr>
+            <th>Sposób podania</th>
+            <td>{{ medicine.medicine_application }}</td>
+        </tr>
+        <tr>
+            <th>Tagi</th>
+            <td>{{ medicine.tags }}</td>
+        </tr>
+        <tr>
+            <th>Biedny weterynarz-autor:</th>
+            <td>{{ medicine.author }}</td>
+        </tr>
+    </table>
+
+{% endblock content %}

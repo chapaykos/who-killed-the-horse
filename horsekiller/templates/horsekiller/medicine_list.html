@@ -2,30 +2,24 @@
 {% load crispy_forms_tags %}
 {% block content %}
     <h1>Leki:</h1>
-    <table class="table table-striped">
+    <table class="table table-hover">
         <thead>
         <tr>
-                <th>{{ Grupa Leku }}</th>
-                <th>{{ Nazwa Handlowa }}</th>
-                <th>{{ Tagi }}</th>
+            <th>Nazwa Leku</th>
+            <th>Nazwa Handlowa</th>
+            <th>Grupa Leku</th>
+            <th>Tagi</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>John</td>
-            <td>Doe</td>
-            <td>john@example.com</td>
-        </tr>
-        <tr>
-            <td>Mary</td>
-            <td>Moe</td>
-            <td>mary@example.com</td>
-        </tr>
-        <tr>
-            <td>July</td>
-            <td>Dooley</td>
-            <td>july@example.com</td>
-        </tr>
+        {% for medicine in medicine_list %}
+            <tr>
+                <td><a href="{% url 'detail_medicine' medicine.pk %}">{{ medicine.medicine_name }}</a></td>
+                <td>{{ medicine.market_names }}</td>
+                <td>{{ medicine.medicine_group }}</td>
+                <td>{{ medicine.tags }}</td>
+            </tr>
+        {% endfor %}
         </tbody>
     </table>
     </div>
