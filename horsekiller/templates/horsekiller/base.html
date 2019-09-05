@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    {% if title %}
+        <title>Kto Zabił Konia? | {{ title }}</title>
+    {% else %}
+        <title>Kto Zabił Konia?</title>
+    {% endif %}
+</head>
+<body>
+<nav class="navbar navbar-expand-lg mb-5 navbar-light">
+    <a class="navbar-brand" href="{% url 'horsekiller-home' %}">Kto Zabił Konia? <span class="badge badge-success">PRE-ALPHA</span></a>
+    <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse"
+            data-target="#navb" aria-expanded="false">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="navbar-collapse collapse" id="navb" style="">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0)">O nas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0)">Współpraca</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    Przeglądaj
+                </a>
+                <div class="dropdown-menu m">
+                    <a class="dropdown-item" href="#">Choroby</a>
+                    <a class="dropdown-item" href="#">Gatunki</a>
+                    <a class="dropdown-item" href="#">Wirusy</a>
+                    <a class="dropdown-item" href="{% url 'list_medicine' %}">Leki</a>
+                    <a class="dropdown-item" href="#">Diagnostyki</a>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown mr-3">
+                    <button type="button" class="btn btn-success dropdown-toggle" style="width: 100px;"
+                            data-toggle="dropdown">
+                        Dodaj
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Chorobę</a>
+                        <a class="dropdown-item" href="#">Wirus</a>
+                        <a class="dropdown-item" href="{% url 'add_medicine' %}">Lek</a>
+                        <a class="dropdown-item" href="#">Gatunek</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Szukaj wszystko...">
+            <button class="btn btn-success my-2 my-sm-0" type="button">Szukaj</button>
+        </form>
+        <ul class="navbar-nav">
+            <a class="nav-link">Witaj {% if user.username %}</a>
+                <a class="nav-link text-primary" href="{% url 'users-profile' %}">{{ user.username }}</a>
+                <a class="nav-link text-success" href="{% url 'users-logout' %}">Wyloguj się</a> {% else %} anonimowy!
+                <a class="nav-link text-success" href="{% url 'users-login' %}">Loguj się</a>
+                <a class="nav-link text-success" href="{% url 'users-register' %}">Rejestruj się</a> {% endif %}
+        </ul>
+    </div>
+</nav>
+
+
+<div class="container my-5">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert-success"></div>
+        {% endfor %}
+    {% endif %}
+    {% block content %}
+    {% endblock %}
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+
+<hr>
+</body>
+<footer class="text-center mb-3">
+    <p>Słyszałem, że to robił Oleksiy Cha-pay &copy;</p>
+    <a class="" href="https://github.com/chapaykos/who-killed-the-horse"><i class="fab fa-github-alt fa-2x"
+                                                                            style="color: green"></i></a>
+    <a class="" href="https://www.linkedin.com/in/alexey-chapay-0b3baaa4/"><i class="fab fa-linkedin fa-2x"
+                                                                              style="color: green"></i></a>
+</footer>
+</html>

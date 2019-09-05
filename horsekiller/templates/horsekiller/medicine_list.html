@@ -1,0 +1,27 @@
+{% extends 'horsekiller/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <h1>Leki:</h1>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Nazwa Leku</th>
+            <th>Nazwa Handlowa</th>
+            <th>Grupa Leku</th>
+            <th>Tagi</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for medicine in medicine_list %}
+            <tr>
+                <td><a href="{% url 'detail_medicine' medicine.pk %}">{{ medicine.medicine_name }}</a></td>
+                <td>{{ medicine.market_names }}</td>
+                <td>{{ medicine.medicine_group }}</td>
+                <td>{{ medicine.tags }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+{% endblock content %}

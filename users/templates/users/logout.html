@@ -1,0 +1,9 @@
+{% extends 'horsekiller/base.html' %}
+{% block content %}
+<div class="content-section">
+    <h2>Zostałeś/aś wylogowany/a</h2>
+    <div class="border-top pt-3">
+        <p><a href="{% url 'users-login' %}">Zaloguj się</a></p>
+    </div>
+</div>
+{% endblock content %}
