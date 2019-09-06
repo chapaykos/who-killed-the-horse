@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'horsekiller',
     'crispy_forms',
     'users',
-    'taggit'
+    'taggit',
 ]
 
 MIDDLEWARE = [

@@ -9,15 +9,17 @@
             <th>Nazwa Handlowa</th>
             <th>Grupa Leku</th>
             <th>Tagi</th>
+            <th>Autor</th>
         </tr>
         </thead>
         <tbody>
         {% for medicine in medicine_list %}
             <tr>
                 <td><a href="{% url 'detail_medicine' medicine.pk %}">{{ medicine.medicine_name }}</a></td>
-                <td>{{ medicine.market_names }}</td>
-                <td>{{ medicine.medicine_group }}</td>
-                <td>{{ medicine.tags }}</td>
+                <td>{% for mark_name in medicine.market_names.all %}<a class="btn btn-outline-success btn-sm">{{ mark_name }}</a> {% endfor %}</td>
+                <td>{% for m_g in medicine.medicine_group.all %}<a class="btn btn-outline-success btn-sm">{{ m_g }}</a> {% endfor %}</td>
+                <td>{% for tag in medicine.tags.names %}<a class="btn btn-outline-success btn-sm">{{ tag }}</a> {% endfor %}</td>
+                <td>{{ medicine.author }}</td>
             </tr>
         {% endfor %}
         </tbody>

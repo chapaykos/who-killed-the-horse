@@ -1,16 +1,68 @@
 {% extends 'horsekiller/base.html' %}
+{% load class_name %}
 {% block content %}
-    <div class="text-center my-5">
+    <div class="text-center">
         <h1 class="display-1">Kto Zabił Konia?</h1>
     </div>
 
-    <div class="input-group my-3">
-        <input type="text" class="form-control form-control-lg"
-               placeholder="Szukaj według chorób, gatunków zwierząt, wirusów, leków...">
-        <div class="input-group-append">
-            <button class="btn btn-success btn-lg" type="submit">Szukaj</button>
+    <div class='row title-row '>
+        <div class='col-12 py-0'>
+            <h3 class='my-0 py-0'>{% if query != None %}{{ count }} wyników dla: <b>{{ query }}</b>{% endif %}</h3>
         </div>
     </div>
+
+
+    {% for object in object_list %}
+        {% with object|class_name as klass %}
+            {% if klass == 'Medicine' %}
+                <div class='row'>
+                    <div class='col-12'>
+                        Medicine: <a href='{{ object.get_absolute_url }}'>{{ object.medicine_name }}</a>
+                    </div>
+                </div>
+
+            {% elif klass == 'Disease' %}
+                <div class='row'>
+                    <div class='col-12'>
+                        Disease: <a href='{{ object.get_absolute_url }}'>{{ object.title }}</a>
+                    </div>
+                </div>
+
+            {% elif klass == 'Virus' %}
+                <div class='row'>
+                    <div class='col-12'>
+                        Virus: <a href='{{ object.get_absolute_url }}'>{{ object.title }}</a>
+                    </div>
+                </div>
+            {% else %}
+                <div class='row'>
+                    <div class='col-12 col-lg-8 offset-lg-4'>
+                        <a href='{{ object.get_absolute_url }}'>{{ object }} | {{ object|class_name }}</a>
+                    </div>
+                </div>
+            {% endif %}
+
+        {% endwith %}
+
+    {% empty %}
+        <div class='row'>
+            <div class='col-12 col-md-6 mx-auto py-4'>
+                <form method='GET' class='' action='.'>
+                    <div class="input-group form-group-no-border mx-auto" style="margin-bottom: 0px; font-size: 32px;">
+                        <input type="text" name="q" data-toggle="popover" data-placement="bottom"
+                               data-content="Press enter to search" class="form-control form-control-lg"
+                               placeholder="Szukaj według chorób, wirusów, leków..." value="" style=""
+                               data-original-title="" title=""
+                               autofocus="autofocus">
+                        <div class="input-group-append">
+                            <button class="btn btn-success btn-lg" type="submit">Szukaj</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    {% endfor %}
     <div class="text-center">
         <i class="fas fa-horse fa-lg"></i>
     </div>
@@ -19,6 +71,10 @@
             <i>"Trzeba było iść na medycynę"</i>
             <footer class="blockquote-footer">Weterynarz</footer>
         </blockquote>
-        <h3 class="text-center"><span style="color: green">Kto Zabił Konia</span> jest rewolucyjną bazą danych, która ma na celu uratować studentów weterynarzy od absolutnej desperacji z powodu nadchodzącej sesji.</h3>
+        <h3 class="text-center"><span style="color: green">Kto Zabił Konia</span> jest rewolucyjną bazą danych, która ma
+            na celu uratować studentów weterynarzy od absolutnej desperacji z powodu nadchodzącej sesji.</h3>
+        <h6 class="text-center"><i class="far fa-check-circle" style="color: green"></i> Zrobiony w django</h6>
+        <h6 class="text-center"><i class="far fa-check-circle" style="color: green"></i> 20+ modeli w bazie danych</h6>
+        <h6 class="text-center"><i class="far fa-check-circle" style="color: green"></i> fobia.js - minimalna ilość JavaScript</h6>
     </div>
 {% endblock content %}

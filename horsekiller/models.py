@@ -4,6 +4,7 @@ from django.utils import timezone
 from users.models import Profile
 from taggit.managers import TaggableManager
 from django.urls import reverse
+from django.db.models import Q
 
 SPECIES = {
 
@@ -14,10 +15,21 @@ DISEASE_PROCESS = {
 }
 
 
+class PostManager(models.Manager):
+    def search(self, query=None):
+        qs = self.get_queryset()
+        if query is not None:
+            or_lookup = (Q(medicine_name__icontains=query) |
+                         Q(doses__icontains=query) |
+                         Q(medicine_application__icontains=query)
+                         )
+            qs = qs.filter(or_lookup).distinct()  # distinct() is often necessary with Q lookups
+        return qs
+
+
 class CommonInfo(models.Model):
     author = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     tags = TaggableManager(blank=True)
-
 
     class Meta:
         abstract = True
@@ -33,7 +45,8 @@ class Disease(CommonInfo):
     survivability = models.CharField(max_length=256)
     diagnostics = models.ForeignKey("Diagnostics", on_delete=models.DO_NOTHING, blank=True, null=True)
     medical_procedure = models.ForeignKey('MedicalProcedure', on_delete=models.DO_NOTHING, blank=True, null=True)
-    process = models.ForeignKey('DiseaseProcess', on_delete=models.DO_NOTHING, blank=True, null=True)  # TODO Czemu Alex chce osobną tablicę?
+    process = models.ForeignKey('DiseaseProcess', on_delete=models.DO_NOTHING, blank=True,
+                                null=True)  # TODO Czemu Alex chce osobną tablicę?
     disease_type = models.CharField(max_length=256)  # TODO Czemu Alex chce osobną tablicę?
     species = models.ForeignKey('Species', on_delete=models.DO_NOTHING, blank=True, null=True)
 
@@ -41,7 +54,8 @@ class Disease(CommonInfo):
 class Diagnostics(CommonInfo):
     interview = models.ForeignKey('Interview', on_delete=models.DO_NOTHING, blank=True, null=True)
     interview_text = models.TextField()
-    changes_during_research = models.ForeignKey('ChangesDuringResearch', on_delete=models.DO_NOTHING, blank=True, null=True)
+    changes_during_research = models.ForeignKey('ChangesDuringResearch', on_delete=models.DO_NOTHING, blank=True,
+                                                null=True)
     behaviour = models.ForeignKey('Behaviour', on_delete=models.DO_NOTHING, blank=True, null=True)
     behaviour_text = models.TextField()
     incident_photos = models.ForeignKey('DiagnosticsPhotos', on_delete=models.DO_NOTHING, blank=True, null=True)
@@ -130,45 +144,72 @@ class Treatment(CommonInfo):
 
 class Medicine(CommonInfo):
     medicine_name = models.CharField(max_length=256, null=True)
-    medicine_group = models.ForeignKey('MedicineGroup', on_delete=models.DO_NOTHING, blank=True, null=True)
-    recommendations = models.ForeignKey('MedicineRecommendations', on_delete=models.DO_NOTHING, blank=True, null=True)
-    contradictions = models.ForeignKey('MedicineContradictions', on_delete=models.DO_NOTHING, blank=True, null=True)
-    side_effects = models.ForeignKey('MedicineSideEffects', on_delete=models.DO_NOTHING, blank=True, null=True)
-    overdose = models.ForeignKey('MedicineOverdose', on_delete=models.DO_NOTHING, blank=True, null=True)
-    alternative = models.ForeignKey('MedicineAlternative', on_delete=models.DO_NOTHING, blank=True, null=True)
-    market_names = models.ForeignKey('MedicineMarketNames', on_delete=models.DO_NOTHING, blank=True, null=True)
+    medicine_group = models.ManyToManyField('MedicineGroup', blank=True, null=True)
+    recommendations = models.ManyToManyField('MedicineRecommendations', blank=True, null=True)
+    contradictions = models.ManyToManyField('MedicineContradictions', blank=True, null=True)
+    side_effects = models.ManyToManyField('MedicineSideEffects', blank=True, null=True)
+    overdose = models.ManyToManyField('MedicineOverdose', blank=True, null=True)
+    alternative = models.ManyToManyField('MedicineAlternative', blank=True, null=True)
+    market_names = models.ManyToManyField('MedicineMarketNames', blank=True, null=True)
     market_names_text = models.TextField(blank=True)
     alternative_text = models.TextField(blank=True)
     doses = models.CharField(max_length=256, blank=True)
     medicine_application = models.CharField(max_length=256, blank=True)
+    objects = PostManager()
 
     def get_absolute_url(self):
         return reverse('detail_medicine', kwargs={'pk': self.pk})
+
+    def __str__(self):
+        return self.medicine_name
 
 
 class MedicineGroup(CommonInfo):
     medicine_group = models.CharField(max_length=256)
 
+    def __str__(self):
+        return self.medicine_group
+
 
 class MedicineRecommendations(CommonInfo):
     recommendations = models.CharField(max_length=256)
+
+    def __str__(self):
+        return self.recommendations
 
 
 class MedicineContradictions(CommonInfo):
     contradictions = models.CharField(max_length=256)
 
+    def __str__(self):
+        return self.contradictions
+
 
 class MedicineSideEffects(CommonInfo):
     side_effects = models.CharField(max_length=256)
+
+    def __str__(self):
+        return self.side_effects
 
 
 class MedicineOverdose(CommonInfo):
     overdose = models.CharField(max_length=256)
 
+    def __str__(self):
+        return self.overdose
+
 
 class MedicineAlternative(CommonInfo):
     alternative = models.CharField(max_length=256)
+    objects = PostManager()
+
+    def __str__(self):
+        return self.alternative
 
 
 class MedicineMarketNames(CommonInfo):
     market_names = models.CharField(max_length=256)
+    objects = PostManager()
+
+    def __str__(self):
+        return self.market_names
