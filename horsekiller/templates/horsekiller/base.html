@@ -16,8 +16,8 @@
     {% endif %}
 </head>
 <body>
-<nav class="navbar navbar-expand-lg mb-5 navbar-light">
-    <a class="navbar-brand" href="{% url 'horsekiller-home' %}">Kto Zabił Konia? <span class="badge badge-success">PRE-ALPHA</span></a>
+<nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="{% url 'horsekiller-home' %}">Kto Zabił Konia? <span class="badge badge-success">PRE-PRE-PRE-ALPHA</span></a>
     <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse"
             data-target="#navb" aria-expanded="false">
         <span class="navbar-toggler-icon"></span>
@@ -26,21 +26,21 @@
     <div class="navbar-collapse collapse" id="navb" style="">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">O nas</a>
+                <a class="nav-link disabled" href="javascript:void(0)">O nas</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">Współpraca</a>
+                <a class="nav-link disabled" href="javascript:void(0)">Współpraca</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
                     Przeglądaj
                 </a>
                 <div class="dropdown-menu m">
-                    <a class="dropdown-item" href="#">Choroby</a>
-                    <a class="dropdown-item" href="#">Gatunki</a>
-                    <a class="dropdown-item" href="#">Wirusy</a>
+                    <a class="dropdown-item" href="{% url 'list_disease' %}">Choroby</a>
+                    <a class="dropdown-item disabled" href="#">Gatunki</a>
+                    <a class="dropdown-item disabled" href="#">Wirusy</a>
                     <a class="dropdown-item" href="{% url 'list_medicine' %}">Leki</a>
-                    <a class="dropdown-item" href="#">Diagnostyki</a>
+                    <a class="dropdown-item" href="{% url 'list_diagnostics' %}">Diagnostyki</a>
                 </div>
             </li>
             <li>
@@ -50,10 +50,11 @@
                         Dodaj
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Chorobę</a>
-                        <a class="dropdown-item" href="#">Wirus</a>
+                        <a class="dropdown-item" href="{% url 'add_disease' %}">Chorobę</a>
+                        <a class="dropdown-item disabled" href="#">Wirus</a>
                         <a class="dropdown-item" href="{% url 'add_medicine' %}">Lek</a>
-                        <a class="dropdown-item" href="#">Gatunek</a>
+                        <a class="dropdown-item disabled" href="#">Gatunek</a>
+                        <a class="dropdown-item" href="{% url 'add_diagnostic' %}">Diagnostykę</a>
                     </div>
                 </div>
             </li>
@@ -65,7 +66,7 @@
         </form>
         <ul class="navbar-nav">
             <a class="nav-link">Witaj {% if user.username %}</a>
-                <a class="nav-link text-primary" href="{% url 'users-profile' %}">{{ user.username }}</a>
+                <a class="nav-link text-primary" href="{% url 'users-profile'%}">{{ user.username }}</a>
                 <a class="nav-link text-success" href="{% url 'users-logout' %}">Wyloguj się</a> {% else %} anonimowy!
                 <a class="nav-link text-success" href="{% url 'users-login' %}">Loguj się</a>
                 <a class="nav-link text-success" href="{% url 'users-register' %}">Rejestruj się</a> {% endif %}
@@ -99,7 +100,7 @@
 <hr>
 </body>
 <footer class="text-center mb-3">
-    <p>Słyszałem, że to robił Oleksiy Cha-pay &copy;</p>
+    <p>Słyszałem, że to zrobił Oleksiy Cha-pay &copy;</p>
     <a class="" href="https://github.com/chapaykos/who-killed-the-horse"><i class="fab fa-github-alt fa-2x"
                                                                             style="color: green"></i></a>
     <a class="" href="https://www.linkedin.com/in/alexey-chapay-0b3baaa4/"><i class="fab fa-linkedin fa-2x"

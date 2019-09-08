@@ -1,0 +1,33 @@
+{% extends 'horsekiller/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <h1>Diagnostyki:</h1>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Wywiad</th>
+            <th>Zmiany przy badaniu</th>
+            <th>Zachowanie się</th>
+            <th>Diagnostyka różnicowa</th>
+            <th>Badanie dodatkowe</th>
+            <th>Tagi</th>
+            <th>Autor</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for diagnostic in diagnostics_list %}
+            <tr>
+                <td><a href="{% url 'detail_diagnostic' diagnostic.pk %}">{{ diagnostic.interview }}</a></td>
+                <td>{{ diagnostic.changes_during_research }}</td>
+                <td>{{ diagnostic.behaviour }}</td>
+                <td><span class="btn btn-danger">PROBLEM - BAD RELATIONSHIP</span></td>
+                <td>{{ diagnostic.additional_check_up }}</td>
+                <td>{% for tag in diagnostic.tags.names %}<a class="btn btn-outline-success btn-sm">{{ tag }}</a> {% endfor %}</td>
+                <td>{{ diagnostic.author }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,55 @@
+{% extends 'horsekiller/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <h1 style="display: inline-block">Diagnostyka: <span style="color: green">{{ diagnostics.interview }}</span>
+    </h1>
+    {% if diagnostics.author == user %}
+        <a href="{% url 'delete_diagnostic' diagnostics.id %}">
+            <button class="btn btn-danger float-right mx-1">Usuń</button>
+        </a>
+        <a href="{% url 'update_diagnostic' diagnostics.id %}">
+            <button class="btn btn-primary float-right mx-1">Edytuj</button>
+        </a>
+    {% endif %}
+    <table class="table table-hover">
+        <tr>
+            <th>Wywiad</th>
+            <td><a class="btn btn-outline-success btn-sm">{{ diagnostics.interview }}</a></td>
+        </tr>
+        <tr>
+            <th>Zmiany przy badaniu</th>
+            <td><a class="btn btn-outline-success btn-sm">{{ diagnostics.changes_during_research }}</a></td>
+        </tr>
+        <tr>
+            <th>Zachowanie się</th>
+            <td><a class="btn btn-outline-success btn-sm">{{ diagnostics.behaviour }}</a></td>
+        </tr>
+        <tr>
+            <th>Zachowanie się (tekst)</th>
+            <td><a class="btn btn-outline-success btn-sm">{{ diagnostics.behaviour_text }}</a></td>
+        </tr>
+        <tr>
+            <th>Zdjęcia przypadków</th>
+            <td><a class="btn btn-outline-success btn-sm">{{ diagnostics.incident_photos }}</a></td>
+        </tr>
+        <tr>
+            <th>Diagnostyka różnicowa</th>
+            <td><span class="badge badge-danger">BAD RELATIONSHIP - BUG</span></td>
+        </tr>
+        <tr>
+            <th>Badania dodatkowe</th>
+            <td><a class="btn btn-outline-success btn-sm">{{ diagnostics.additional_check_up }}</a></td>
+        </tr>
+        <tr>
+        <tr>
+            <th>Tagi</th>
+            <td>{% for tag in diagnostics.tags.names %}<a class="btn btn-outline-success btn-sm">{{ tag }}</a> {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <th>Biedny weterynarz-autor:</th>
+            <td>{{ diagnostics.author }}</td>
+        </tr>
+    </table>
+
+{% endblock content %}

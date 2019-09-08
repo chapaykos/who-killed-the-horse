@@ -2,24 +2,30 @@
 {% load crispy_forms_tags %}
 {% block content %}
     <h1 style="display: inline-block">Lek: <span style="color: green">{{ medicine.medicine_name }}</span></h1>
-    <button class="btn btn-danger float-right mx-1">Usuń</button>
-    <button class="btn btn-primary float-right mx-1">Edytuj</button>
+    {% if medicine.author == user %}
+        <a href="{% url 'delete_medicine' medicine.id %}">
+            <button class="btn btn-danger float-right mx-1">Usuń</button>
+        </a>
+        <a href="{% url 'update_medicine' medicine.id %}">
+            <button class="btn btn-primary float-right mx-1">Edytuj</button>
+        </a>
+    {% endif %}
     <table class="table table-hover">
         <tr>
             <th>Grupa Leku</th>
-            <td>{{ medicine.medicine_group }}</td>
+            <td>{% for med_group in medicine.medicine_group.all %}<a class="btn btn-outline-success btn-sm">{{ med_group }}</a> {% endfor %}</td>
         </tr>
         <tr>
             <th>Nazwy handlowe</th>
-            <td>{{ medicine.market_names }}</td>
+            <td>{% for market_name in medicine.market_names.all %}<a class="btn btn-outline-success btn-sm">{{ market_name }}</a> {% endfor %}</td>
         </tr>
         <tr>
             <th>Analogi</th>
-            <td>{{ medicine.alternative }}</td>
+            <td>{% for alt in medicine.alternative.all %}<a class="btn btn-outline-success btn-sm">{{ alt }}</a> {% endfor %}</td>
         </tr>
         <tr>
             <th>Przeciwskazania</th>
-            <td>{{ medicine.contradictions }}</td>
+            <td>{% for contradiction in medicine.contradictions.all %}<a class="btn btn-outline-danger btn-sm">{{ contradiction }}</a> {% endfor %}</td>
         </tr>
         <tr>
             <th>Dawki</th>
@@ -27,15 +33,15 @@
         </tr>
         <tr>
             <th>Działania niepożądanie</th>
-            <td>{{ medicine.side_effects }}</td>
+            <td>{% for side_effect in medicine.side_effects.all %}<a class="btn btn-outline-danger btn-sm">{{ side_effect }}</a> {% endfor %}</td>
         </tr>
         <tr>
             <th>Wskazania</th>
-            <td>{{ medicine.recommendations }}</td>
+            <td>{% for recommendation in medicine.recommendations.all %}<a class="btn btn-outline-success btn-sm">{{ recommendation }}</a> {% endfor %}</td>
         </tr>
         <tr>
             <th>Przedawkowanie</th>
-            <td>{{ medicine.overdose }}</td>
+            <td>{% for overdose in medicine.overdose.all %}<a class="btn btn-outline-danger btn-sm">{{ overdose }}</a> {% endfor %}</td>
         </tr>
         <tr>
             <th>Sposób podania</th>
@@ -43,7 +49,7 @@
         </tr>
         <tr>
             <th>Tagi</th>
-            <td>{{ medicine.tags }}</td>
+            <td>{% for tag in medicine.tags.names %}<a class="btn btn-outline-success btn-sm">{{ tag }}</a> {% endfor %}</td>
         </tr>
         <tr>
             <th>Biedny weterynarz-autor:</th>
