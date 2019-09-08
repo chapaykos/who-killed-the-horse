@@ -19,7 +19,7 @@
         <tbody>
         {% for disease in disease_list %}
             <tr>
-                <td><a href="{% url 'detail_medicine' disease.pk %}">{{ disease.name_pl }}</a></td>
+                <td><a href="{% url 'detail_disease' disease.pk %}">{{ disease.name_pl }}</a></td>
                 <td>{{ disease.name_en }}</td>
                 <td>{{ disease.name_lat }}</td>
                 <td>{{ disease.name_other }}</td>

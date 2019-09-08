@@ -19,5 +19,7 @@ urlpatterns = [
     path('medicine/<pk>/delete', horsekiller_views.DeleteMedicineView.as_view(), name='delete_medicine'),
     path('disease/new/', horsekiller_views.AddDiseaseView.as_view(), name='add_disease'),
     path('diseases/', horsekiller_views.ListDiseaseView.as_view(), name='list_disease'),
-
+    path('disease/<pk>/', horsekiller_views.DetailDiseaseView.as_view(), name='detail_disease'),
+    path('disease/<pk>/update', horsekiller_views.UpdateDiseaseView.as_view(), name='update_disease'),
+    path('disease/<pk>/delete', horsekiller_views.DeleteDiseaseView.as_view(), name='delete_disease'),
 ]

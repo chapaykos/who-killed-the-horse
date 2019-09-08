@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-    <h1>Lek:</h1>
+    <h1>Lek: {% if medicine.name_pl %} {{ medicine.name_pl }} {% endif %}</h1>
     <div class="form-group">
         <form method="post">
             {% csrf_token %}

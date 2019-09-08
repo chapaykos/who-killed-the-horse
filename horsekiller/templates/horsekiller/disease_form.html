@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-    <h1>Choroba:</h1>
+    <h1>Choroba: {% if disease.name_pl %} {{ disease.name_pl }} {% endif %}</h1>
     <div class="form-group">
         <form method="post">
             {% csrf_token %}

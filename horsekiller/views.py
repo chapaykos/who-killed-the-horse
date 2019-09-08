@@ -6,7 +6,8 @@ from .forms import *
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, LogoutView, AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, PasswordResetForm
-from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
+from django.views.generic import (CreateView, ListView,
+                                  UpdateView, DeleteView, DetailView)
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from itertools import chain
 
@@ -82,6 +83,39 @@ class AddDiseaseView(LoginRequiredMixin, CreateView):
 class ListDiseaseView(ListView):
     model = Disease
     fields = '__all__'
+
+
+class DetailDiseaseView(DetailView):
+    model = Disease
+    fields = '__all__'
+
+
+class UpdateDiseaseView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Disease
+    form_class = DiseaseForm
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        disease = self.get_object()
+        if self.request.user == disease.author:
+            return True
+        else:
+            return False
+
+
+class DeleteDiseaseView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Disease
+    success_url = '/'
+
+    def test_func(self):
+        disease = self.get_object()
+        if self.request.user == disease.author:
+            return True
+        else:
+            return False
 
 
 class SearchView(ListView):

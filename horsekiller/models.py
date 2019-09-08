@@ -52,6 +52,9 @@ class Disease(CommonInfo):
     def __str__(self):
         return f"{self.name_pl} - {self.name_en} - {self.name_lat}"
 
+    def get_absolute_url(self):
+        return reverse('detail_disease', kwargs={'pk': self.pk})
+
 class Diagnostics(CommonInfo):
     interview = models.ForeignKey('Interview', on_delete=models.DO_NOTHING, blank=True, null=True)
     interview_text = models.TextField()
@@ -92,6 +95,9 @@ class DiseaseProcess(CommonInfo):
 class Species(CommonInfo):
     species = models.CharField(choices=SPECIES, max_length=256)
     race = models.ForeignKey('Race', on_delete=models.DO_NOTHING, blank=True, null=True)
+
+    def __str__(self):
+        return self.species
 
 
 class Race(CommonInfo):
