@@ -45,8 +45,7 @@ class Disease(CommonInfo):
     survivability = models.CharField(max_length=256)
     diagnostics = models.ForeignKey("Diagnostics", on_delete=models.DO_NOTHING, blank=True, null=True)
     medical_procedure = models.ForeignKey('MedicalProcedure', on_delete=models.DO_NOTHING, blank=True, null=True)
-    process = models.ForeignKey('DiseaseProcess', on_delete=models.DO_NOTHING, blank=True,
-                                null=True)  # TODO Czemu Alex chce osobną tablicę?
+    process = models.ForeignKey('DiseaseProcess', on_delete=models.DO_NOTHING, blank=True, null=True)  # TODO Czemu Alex chce osobną tablicę?
     disease_type = models.CharField(max_length=256)  # TODO Czemu Alex chce osobną tablicę?
     species = models.ForeignKey('Species', on_delete=models.DO_NOTHING, blank=True, null=True)
 

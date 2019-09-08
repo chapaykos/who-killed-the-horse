@@ -17,4 +17,6 @@ urlpatterns = [
     path('medicine/<pk>/', horsekiller_views.DetailMedicineView.as_view(), name='detail_medicine'),
     path('medicine/<pk>/update', horsekiller_views.UpdateMedicineView.as_view(), name='update_medicine'),
     path('medicine/<pk>/delete', horsekiller_views.DeleteMedicineView.as_view(), name='delete_medicine'),
+    path('disease/new/', horsekiller_views.AddDiseaseView.as_view(), name='add_disease'),
+
 ]
