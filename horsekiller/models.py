@@ -49,6 +49,8 @@ class Disease(CommonInfo):
     disease_type = models.CharField(max_length=256)  # TODO Czemu Alex chce osobną tablicę?
     species = models.ForeignKey('Species', on_delete=models.DO_NOTHING, blank=True, null=True)
 
+    def __str__(self):
+        return f"{self.name_pl} - {self.name_en} - {self.name_lat}"
 
 class Diagnostics(CommonInfo):
     interview = models.ForeignKey('Interview', on_delete=models.DO_NOTHING, blank=True, null=True)

@@ -1,0 +1,37 @@
+{% extends 'horsekiller/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <h1>Choroby:</h1>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Nazwa polska</th>
+            <th>Nazwa angielska</th>
+            <th>Nazwa łacińska</th>
+            <th>Inne nazwy</th>
+            <th>Przeżywalność</th>
+            <th>Postać Choroby</th>
+            <th>Gatunek</th>
+            <th>Tagi</th>
+            <th>Autor</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for disease in disease_list %}
+            <tr>
+                <td><a href="{% url 'detail_medicine' disease.pk %}">{{ disease.name_pl }}</a></td>
+                <td>{{ disease.name_en }}</td>
+                <td>{{ disease.name_lat }}</td>
+                <td>{{ disease.name_other }}</td>
+                <td>{{ disease.survivability }}</td>
+                <td>{{ disease.disease_type }}</td>
+                <td>{{ disease.species }}</td>
+                <td>{% for tag in disease.tags.names %}<a class="btn btn-outline-success btn-sm">{{ tag }}</a> {% endfor %}</td>
+                <td>{{ disease.author }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+{% endblock content %}

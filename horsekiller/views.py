@@ -69,14 +69,19 @@ class AddMedicineView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
+
 class AddDiseaseView(LoginRequiredMixin, CreateView):
     model = Disease
     form_class = DiseaseForm
 
-
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+
+class ListDiseaseView(ListView):
+    model = Disease
+    fields = '__all__'
 
 
 class SearchView(ListView):
