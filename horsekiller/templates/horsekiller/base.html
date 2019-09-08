@@ -26,10 +26,10 @@
     <div class="navbar-collapse collapse" id="navb" style="">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">O nas</a>
+                <a class="nav-link disabled" href="javascript:void(0)">O nas</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">Współpraca</a>
+                <a class="nav-link disabled" href="javascript:void(0)">Współpraca</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
@@ -37,10 +37,10 @@
                 </a>
                 <div class="dropdown-menu m">
                     <a class="dropdown-item" href="{% url 'list_disease' %}">Choroby</a>
-                    <a class="dropdown-item" href="#">Gatunki</a>
-                    <a class="dropdown-item" href="#">Wirusy</a>
+                    <a class="dropdown-item disabled" href="#">Gatunki</a>
+                    <a class="dropdown-item disabled" href="#">Wirusy</a>
                     <a class="dropdown-item" href="{% url 'list_medicine' %}">Leki</a>
-                    <a class="dropdown-item" href="#">Diagnostyki</a>
+                    <a class="dropdown-item" href="{% url 'list_diagnostics' %}">Diagnostyki</a>
                 </div>
             </li>
             <li>
@@ -51,9 +51,10 @@
                     </button>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="{% url 'add_disease' %}">Chorobę</a>
-                        <a class="dropdown-item" href="#">Wirus</a>
+                        <a class="dropdown-item disabled" href="#">Wirus</a>
                         <a class="dropdown-item" href="{% url 'add_medicine' %}">Lek</a>
-                        <a class="dropdown-item" href="#">Gatunek</a>
+                        <a class="dropdown-item disabled" href="#">Gatunek</a>
+                        <a class="dropdown-item" href="{% url 'add_diagnostic' %}">Diagnostykę</a>
                     </div>
                 </div>
             </li>

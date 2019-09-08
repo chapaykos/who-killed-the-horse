@@ -66,6 +66,12 @@ class Diagnostics(CommonInfo):
     # differential_diagnosis = models.ForeignKey('Disease', on_delete=models.DO_NOTHING) #TODO Odwrócona relacja, co robić?
     additional_check_up = models.ForeignKey('AdditionalCheckUp', on_delete=models.DO_NOTHING, blank=True, null=True)
 
+    def __str__(self):
+        return f"{self.interview}"
+
+    def get_absolute_url(self):
+        return reverse('detail_diagnostic', kwargs={'pk': self.pk})
+
 
 class DiagnosticsPhotos(CommonInfo):
     incident_photos = models.ImageField(upload_to='incident_photos')

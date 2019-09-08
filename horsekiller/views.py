@@ -17,6 +17,8 @@ class HorseKillerIndexView(View):
         return render(request, 'horsekiller/index.html')
 
 
+# LEKI
+
 class ListMedicineView(ListView):
     model = Medicine
     context_object_name = 'medicine_list'
@@ -70,6 +72,7 @@ class AddMedicineView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
+# CHOROBY
 
 class AddDiseaseView(LoginRequiredMixin, CreateView):
     model = Disease
@@ -116,6 +119,56 @@ class DeleteDiseaseView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         else:
             return False
+
+# DIAGNOSTYKI
+
+class AddDiagnosticView(LoginRequiredMixin, CreateView):
+    model = Diagnostics
+    form_class = DiagnosticForm
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+
+class ListDiagnosticsView(ListView):
+    model = Diagnostics
+    fields = '__all__'
+
+
+class DetailDiagnosticView(DetailView):
+    model = Diagnostics
+    fields = '__all__'
+
+
+class UpdateDiagnosticView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Diagnostics
+    form_class = DiagnosticForm
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        diagnostic = self.get_object()
+        if self.request.user == diagnostic.author:
+            return True
+        else:
+            return False
+
+
+class DeleteDiagnosticView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Diagnostics
+    success_url = '/'
+
+    def test_func(self):
+        diagnostic = self.get_object()
+        if self.request.user == diagnostic.author:
+            return True
+        else:
+            return False
+
+
 
 
 class SearchView(ListView):
