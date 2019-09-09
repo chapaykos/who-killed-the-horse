@@ -15,6 +15,7 @@ Currently we are working on deploying the first alpha version of the website.
 <b>Built with</b>
 - Python (3.7.3)
 - Django Framework (2.2)
+- PostgreSQL
 - Bootstrap 4
 
 ## Features
