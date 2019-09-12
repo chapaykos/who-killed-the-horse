@@ -14,7 +14,7 @@
 
     {% for object in object_list %}
         {% with object|class_name as klass %}
-            {% if klass == 'Medicine' %}
+            {% if klass == 'Drug' %}
                 <div class='row'>
                     <div class='col-12'>
                         Medicine: <a href='{{ object.get_absolute_url }}'>{{ object.medicine_name }}</a>
