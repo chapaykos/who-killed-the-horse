@@ -20,20 +20,20 @@ class HorseKillerIndexView(View):
 # LEKI
 
 class ListMedicineView(ListView):
-    model = Medicine
+    model = Drug
     context_object_name = 'medicine_list'
     fields = '__all__'
 
 
 class DetailMedicineView(DetailView):
-    model = Medicine
+    model = Drug
     fields = '__all__'
 
 
 class UpdateMedicineView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = Medicine
-    fields = ['medicine_name', 'market_names', 'medicine_group', 'recommendations',
-              'contradictions', 'side_effects', 'overdose',
+    model = Drug
+    fields = ['name', 'market_names', 'drug_class', 'recommendations',
+              'contraindications', 'side_effects', 'overdose',
               'alternative',
               'doses', 'medicine_application', 'tags']
 
@@ -50,7 +50,7 @@ class UpdateMedicineView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 
 class DeleteMedicineView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    model = Medicine
+    model = Drug
     success_url = '/'
 
     def test_func(self):
@@ -62,9 +62,9 @@ class DeleteMedicineView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 
 class AddMedicineView(LoginRequiredMixin, CreateView):
-    model = Medicine
-    fields = ['medicine_name', 'market_names', 'medicine_group', 'recommendations',
-              'contradictions', 'side_effects', 'overdose',
+    model = Drug
+    fields = ['name', 'market_names', 'drug_class', 'recommendations',
+              'contraindications', 'side_effects', 'overdose',
               'alternative',
               'doses', 'medicine_application', 'tags']
 
@@ -123,7 +123,7 @@ class DeleteDiseaseView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 # DIAGNOSTYKI
 
 class AddDiagnosticView(LoginRequiredMixin, CreateView):
-    model = Diagnostics
+    model = Diagnosis
     form_class = DiagnosticForm
 
     def form_valid(self, form):
@@ -132,17 +132,17 @@ class AddDiagnosticView(LoginRequiredMixin, CreateView):
 
 
 class ListDiagnosticsView(ListView):
-    model = Diagnostics
+    model = Diagnosis
     fields = '__all__'
 
 
 class DetailDiagnosticView(DetailView):
-    model = Diagnostics
+    model = Diagnosis
     fields = '__all__'
 
 
 class UpdateDiagnosticView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = Diagnostics
+    model = Diagnosis
     form_class = DiagnosticForm
 
     def form_valid(self, form):
@@ -158,7 +158,7 @@ class UpdateDiagnosticView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 
 class DeleteDiagnosticView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    model = Diagnostics
+    model = Diagnosis
     success_url = '/'
 
     def test_func(self):
@@ -187,7 +187,7 @@ class SearchView(ListView):
         query = request.GET.get('q', None)
 
         if query is not None:
-            blog_results = Medicine.objects.search(query)
+            blog_results = Drug.objects.search(query)
 
             # combine querysets
             queryset_chain = chain(
@@ -198,4 +198,4 @@ class SearchView(ListView):
                         reverse=True)
             self.count = len(qs)  # since qs is actually a list
             return qs
-        return Medicine.objects.none()  # just an empty queryset as default
+        return Drug.objects.none()  # just an empty queryset as default

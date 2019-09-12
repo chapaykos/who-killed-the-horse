@@ -11,6 +11,6 @@ class DiseaseForm(forms.ModelForm):
 
 class DiagnosticForm(forms.ModelForm):
     class Meta:
-        model = Diagnostics
+        model = Diagnosis
         exclude = ['author']
 

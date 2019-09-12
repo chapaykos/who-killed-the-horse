@@ -40,13 +40,14 @@ class Disease(CommonInfo):
     name_lat = models.CharField(max_length=256)
     name_en = models.CharField(max_length=256)
     name_other = models.CharField(max_length=256)
-    predisposition = models.CharField(max_length=256)
+    abbreviations = models.CharField(max_length=256)
+    predispositions = models.CharField(max_length=256)
     remarks_comments = models.TextField()
-    survivability = models.CharField(max_length=256)
-    diagnostics = models.ForeignKey("Diagnostics", on_delete=models.DO_NOTHING, blank=True, null=True)
+    survival_rate = models.CharField(max_length=256)
+    diagnosis = models.ForeignKey("Diagnosis", on_delete=models.DO_NOTHING, blank=True, null=True)
     medical_procedure = models.ForeignKey('MedicalProcedure', on_delete=models.DO_NOTHING, blank=True, null=True)
-    process = models.ForeignKey('DiseaseProcess', on_delete=models.DO_NOTHING, blank=True, null=True)  # TODO Czemu Alex chce osobną tablicę?
-    disease_type = models.CharField(max_length=256)  # TODO Czemu Alex chce osobną tablicę?
+    course_of_disease = models.CharField(choices=DISEASE_PROCESS, max_length=256)
+    disease_form = models.CharField(max_length=256)
     species = models.ForeignKey('Species', on_delete=models.DO_NOTHING, blank=True, null=True)
 
     def __str__(self):
@@ -55,30 +56,32 @@ class Disease(CommonInfo):
     def get_absolute_url(self):
         return reverse('detail_disease', kwargs={'pk': self.pk})
 
-class Diagnostics(CommonInfo):
-    interview = models.ForeignKey('Interview', on_delete=models.DO_NOTHING, blank=True, null=True)
-    interview_text = models.TextField()
-    changes_during_research = models.ForeignKey('ChangesDuringResearch', on_delete=models.DO_NOTHING, blank=True,
-                                                null=True)
+
+class Diagnosis(CommonInfo):
+    anamnesis = models.ForeignKey('Anamnesis', on_delete=models.DO_NOTHING, blank=True, null=True)
+    anamnesis_text = models.TextField()
+    changes_during_study = models.ForeignKey('ChangesDuringStudy', on_delete=models.DO_NOTHING, blank=True,
+                                             null=True)
     behaviour = models.ForeignKey('Behaviour', on_delete=models.DO_NOTHING, blank=True, null=True)
     behaviour_text = models.TextField()
-    incident_photos = models.ForeignKey('DiagnosticsPhotos', on_delete=models.DO_NOTHING, blank=True, null=True)
+    case_photos = models.ForeignKey('DiagnosisPhotos', on_delete=models.DO_NOTHING, blank=True,
+                                    null=True)
     # differential_diagnosis = models.ForeignKey('Disease', on_delete=models.DO_NOTHING) #TODO Odwrócona relacja, co robić?
-    additional_check_up = models.ForeignKey('AdditionalCheckUp', on_delete=models.DO_NOTHING, blank=True, null=True)
+    additional_tests = models.ForeignKey('AdditionalTests', on_delete=models.DO_NOTHING, blank=True, null=True)
 
     def __str__(self):
-        return f"{self.interview}"
+        return f"{self.anamnesis}"
 
     def get_absolute_url(self):
         return reverse('detail_diagnostic', kwargs={'pk': self.pk})
 
 
-class DiagnosticsPhotos(CommonInfo):
-    incident_photos = models.ImageField(upload_to='incident_photos')
+class DiagnosisPhotos(CommonInfo):
+    incident_photos = models.ImageField(upload_to='case_photos')
 
 
-class Interview(CommonInfo):
-    interview = models.CharField(max_length=256)
+class Anamnesis(CommonInfo):
+    anamnesis = models.CharField(max_length=256)
 
 
 class Behaviour(CommonInfo):
@@ -90,12 +93,15 @@ class MedicalProcedure(CommonInfo):
     essential_procedures = models.CharField(max_length=256)
     other_procedures_priority = models.CharField(max_length=256)
     owner_recommendations = models.CharField(max_length=256)
-    treatment = models.ForeignKey('Treatment', on_delete=models.DO_NOTHING, blank=True, null=True)
-    medicine = models.ForeignKey('Medicine', on_delete=models.DO_NOTHING, blank=True, null=True)
+    surgery = models.ForeignKey('Surgery', on_delete=models.DO_NOTHING, blank=True, null=True)
+    drug = models.ForeignKey('Drug', on_delete=models.DO_NOTHING, blank=True, null=True)
 
 
-class DiseaseProcess(CommonInfo):
-    disease_process = models.CharField(choices=DISEASE_PROCESS, max_length=256)
+class Surgery(CommonInfo):
+    name = models.CharField(max_length=256)
+    drug_anasthesia = models.ForeignKey('Drug', on_delete=models.DO_NOTHING, blank=True, null=True)
+    comments = models.TextField()
+    off_treatment_procedures = models.TextField()
 
 
 class Species(CommonInfo):
@@ -110,21 +116,20 @@ class Race(CommonInfo):
     race = models.CharField(max_length=256)
 
 
-class ChangesDuringResearch(CommonInfo):
+class ChangesDuringStudy(CommonInfo):
     system = models.ForeignKey('CDRSystem', on_delete=models.DO_NOTHING)
-    detection_method = models.ForeignKey('CDRDetectionMethod', on_delete=models.DO_NOTHING)
-    detection_method_text = models.TextField()
+    name = models.ForeignKey('CDSName', on_delete=models.DO_NOTHING)
 
 
 class CDRSystem(CommonInfo):
     system = models.CharField(max_length=256)
 
 
-class CDRDetectionMethod(CommonInfo):
-    detection_method = models.CharField(max_length=256)
+class CDSName(CommonInfo):
+    name = models.CharField(max_length=256)
 
 
-class AdditionalCheckUp(CommonInfo):
+class AdditionalTests(CommonInfo):
     blood_changes = models.ForeignKey('BloodChanges', on_delete=models.DO_NOTHING)
     urine_changes = models.ForeignKey('UrineChanges', on_delete=models.DO_NOTHING)
     feces = models.ForeignKey('Feces', on_delete=models.DO_NOTHING)
@@ -148,22 +153,15 @@ class AnatPatMorChanges(CommonInfo):
     anat_pat_mor_changes = models.CharField(max_length=256)
 
 
-class Treatment(CommonInfo):
-    name = models.CharField(max_length=256)
-    medicine_anesthetic = models.ForeignKey('Medicine', on_delete=models.DO_NOTHING, blank=True, null=True)
-    notices = models.TextField()
-    off_treatment_procedures = models.TextField()
-
-
-class Medicine(CommonInfo):
-    medicine_name = models.CharField(max_length=256, null=True)
-    medicine_group = models.ManyToManyField('MedicineGroup', blank=True, null=True)
-    recommendations = models.ManyToManyField('MedicineRecommendations', blank=True, null=True)
-    contradictions = models.ManyToManyField('MedicineContradictions', blank=True, null=True)
-    side_effects = models.ManyToManyField('MedicineSideEffects', blank=True, null=True)
-    overdose = models.ManyToManyField('MedicineOverdose', blank=True, null=True)
-    alternative = models.ManyToManyField('MedicineAlternative', blank=True, null=True)
-    market_names = models.ManyToManyField('MedicineMarketNames', blank=True, null=True)
+class Drug(CommonInfo):
+    name = models.CharField(max_length=256, null=True)
+    drug_class = models.ManyToManyField('DrugClass', blank=True, null=True)
+    recommendations = models.ManyToManyField('DrugRecommendations', blank=True, null=True)
+    contraindications = models.ManyToManyField('DrugContraindications', blank=True, null=True)
+    side_effects = models.ManyToManyField('DrugSideEffects', blank=True, null=True)
+    overdose = models.ManyToManyField('DrugOverdose', blank=True, null=True)
+    alternative = models.ManyToManyField('DrugAlternative', blank=True, null=True)
+    market_names = models.ManyToManyField('DrugMarketNames', blank=True, null=True)
     market_names_text = models.TextField(blank=True)
     alternative_text = models.TextField(blank=True)
     doses = models.CharField(max_length=256, blank=True)
@@ -174,45 +172,45 @@ class Medicine(CommonInfo):
         return reverse('detail_medicine', kwargs={'pk': self.pk})
 
     def __str__(self):
-        return self.medicine_name
+        return self.name
 
 
-class MedicineGroup(CommonInfo):
-    medicine_group = models.CharField(max_length=256)
+class DrugClass(CommonInfo):
+    drug_class = models.CharField(max_length=256)
 
     def __str__(self):
-        return self.medicine_group
+        return self.drug_class
 
 
-class MedicineRecommendations(CommonInfo):
+class DrugRecommendations(CommonInfo):
     recommendations = models.CharField(max_length=256)
 
     def __str__(self):
         return self.recommendations
 
 
-class MedicineContradictions(CommonInfo):
-    contradictions = models.CharField(max_length=256)
+class DrugContraindications(CommonInfo):
+    contraindications = models.CharField(max_length=256)
 
     def __str__(self):
-        return self.contradictions
+        return self.contraindications
 
 
-class MedicineSideEffects(CommonInfo):
+class DrugSideEffects(CommonInfo):
     side_effects = models.CharField(max_length=256)
 
     def __str__(self):
         return self.side_effects
 
 
-class MedicineOverdose(CommonInfo):
+class DrugOverdose(CommonInfo):
     overdose = models.CharField(max_length=256)
 
     def __str__(self):
         return self.overdose
 
 
-class MedicineAlternative(CommonInfo):
+class DrugAlternative(CommonInfo):
     alternative = models.CharField(max_length=256)
     objects = PostManager()
 
@@ -220,7 +218,7 @@ class MedicineAlternative(CommonInfo):
         return self.alternative
 
 
-class MedicineMarketNames(CommonInfo):
+class DrugMarketNames(CommonInfo):
     market_names = models.CharField(max_length=256)
     objects = PostManager()
 
