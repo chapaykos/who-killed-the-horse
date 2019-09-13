@@ -19,3 +19,8 @@ class MedicalProcedureForm(forms.ModelForm):
         model = MedicalProcedure
         exclude = ['author']
 
+class SurgeryForm(forms.ModelForm):
+    class Meta:
+        model = Surgery
+        exclude = ['author']
+

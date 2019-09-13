@@ -1,0 +1,44 @@
+{% extends 'horsekiller/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <h1 style="display: inline-block">Zabieg: <span style="color: green">{{ surgery.name }}</span></h1>
+    {% if surgery.author == user %}
+        <a href="{% url 'delete_surgery' surgery.id %}">
+            <button class="btn btn-danger float-right mx-1">Usuń</button>
+        </a>
+        <a href="{% url 'update_surgery' surgery.id %}">
+            <button class="btn btn-primary float-right mx-1">Edytuj</button>
+        </a>
+    {% endif %}
+    <table class="table table-hover">
+        <tr>
+            <th>Nazwa</th>
+            <td>{{ surgery.name }}</td>
+        </tr>
+        <tr>
+            <th>Lek (znieczulenie)</th>
+            <td>{{ surgery.drug_anasthesia }}</td>
+        </tr>
+        <tr>
+            <th>Typ znieczulenia</th>
+            <td><span class="badge badge-danger"> NIMA BUG </span></td>
+        </tr>
+        <tr>
+            <th>Uwagi</th>
+            <td>{{ surgery.comments }}</td>
+        </tr>
+        <tr>
+            <th>Postępowanie pozazabiegowe</th>
+            <td>{{ surgery.off_treatment_procedures }}</td>
+        </tr>
+        <tr>
+            <th>Tagi</th>
+            <td>{% for tag in surgery.tags.names %}<a class="btn btn-outline-success btn-sm">{{ tag }}</a> {% endfor %}</td>
+        </tr>
+        <tr>
+            <th>Biedny weterynarz-autor:</th>
+            <td>{{ surgery.author }}</td>
+        </tr>
+    </table>
+
+{% endblock content %}

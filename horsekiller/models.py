@@ -106,6 +106,9 @@ class Surgery(CommonInfo):
     comments = models.TextField()
     off_treatment_procedures = models.TextField()
 
+    def get_absolute_url(self):
+        return reverse('detail_surgery', kwargs={'pk': self.pk})
+
 
 class Species(CommonInfo):
     species = models.CharField(choices=SPECIES, max_length=256)

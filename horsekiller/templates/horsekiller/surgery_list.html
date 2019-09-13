@@ -1,0 +1,31 @@
+{% extends 'horsekiller/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <h1>Zabiegi:</h1>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Nazwa</th>
+            <th>Typ znieczulenia</th>
+            <th>Postępowanie pozazabiegowe</th>
+            <th>Tagi</th>
+            <th>Autor</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for surgery in surgery_list %}
+            <tr>
+                <td>
+                    <a href="{% url 'detail_surgery' surgery.pk %}">{{ surgery.name }}</a>
+                </td>
+                <td>{{ surgery.drug_anasthesia }}</td>
+                <td>{{ surgery.off_treatment_procedures }}</td>
+                <td>{% for tag in surgery.tags.names %}
+                    <a class="btn btn-outline-success btn-sm">{{ tag }}</a> {% endfor %}</td>
+                <td>{{ surgery.author }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock content %}

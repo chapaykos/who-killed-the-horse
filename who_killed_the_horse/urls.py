@@ -37,4 +37,10 @@ urlpatterns = [
     path('medical_procedure/<pk>/', horsekiller_views.DetailMedicalProcedureView.as_view(), name='detail_medical_procedure'),
     path('medical_procedure/<pk>/update', horsekiller_views.UpdateMedicalProcedureView.as_view(), name='update_medical_procedure'),
     path('medical_procedure/<pk>/delete', horsekiller_views.DeleteMedicalProcedureView.as_view(), name='delete_medical_procedure'),
+    # ZABIEGI
+    path('surgery/', horsekiller_views.ListSurgeryView.as_view(), name='list_surgery'),
+    path('surgery/new/', horsekiller_views.AddSurgeryView.as_view(), name='add_surgery'),
+    path('surgery/<pk>/', horsekiller_views.DetailSurgeryView.as_view(), name='detail_surgery'),
+    path('surgery/<pk>/update', horsekiller_views.UpdateSurgeryView.as_view(), name='update_surgery'),
+    path('surgery/<pk>/delete', horsekiller_views.DeleteSurgeryView.as_view(), name='delete_surgery'),
 ]
