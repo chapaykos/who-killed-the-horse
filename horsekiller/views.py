@@ -217,6 +217,57 @@ class DeleteMedicalProcedureView(LoginRequiredMixin, UserPassesTestMixin, Delete
         else:
             return False
 
+
+# ZABIEGI
+
+class AddSurgeryView(LoginRequiredMixin, CreateView):
+    model = Surgery
+    form_class = SurgeryForm
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+
+class ListSurgeryView(ListView):
+    model = Surgery
+    fields = '__all__'
+
+
+class DetailSurgeryView(DetailView):
+    model = Surgery
+    fields = '__all__'
+
+
+class UpdateSurgeryView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Surgery
+    form_class = SurgeryForm
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        surgery = self.get_object()
+        if self.request.user == surgery.author:
+            return True
+        else:
+            return False
+
+
+class DeleteSurgeryView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Surgery
+    success_url = '/'
+
+    def test_func(self):
+        surgery = self.get_object()
+        if self.request.user == surgery.author:
+            return True
+        else:
+            return False
+
+
+
 class SearchView(ListView):
     template_name = 'horsekiller/index.html'
     paginate_by = 20
