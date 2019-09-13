@@ -99,6 +99,8 @@ class MedicalProcedure(CommonInfo):
     def get_absolute_url(self):
         return reverse('detail_medical_procedure', kwargs={'pk': self.pk})
 
+    def __str__(self):
+        return self.immediate_action
 
 class Surgery(CommonInfo):
     name = models.CharField(max_length=256)
@@ -108,6 +110,9 @@ class Surgery(CommonInfo):
 
     def get_absolute_url(self):
         return reverse('detail_surgery', kwargs={'pk': self.pk})
+
+    def __str__(self):
+        return self.name
 
 
 class Species(CommonInfo):
