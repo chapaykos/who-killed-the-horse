@@ -31,5 +31,10 @@ urlpatterns = [
     path('diagnostic/<pk>/', horsekiller_views.DetailDiagnosticView.as_view(), name='detail_diagnostic'),
     path('diagnostic/<pk>/update', horsekiller_views.UpdateDiagnosticView.as_view(), name='update_diagnostic'),
     path('diagnostic/<pk>/delete', horsekiller_views.DeleteDiagnosticView.as_view(), name='delete_diagnostic'),
-
+    # POSTĘPOWANIA MEDYCZNE
+    path('medical_procedure/', horsekiller_views.ListMedicalProcedureView.as_view(), name='list_medical_procedure'),
+    path('medical_procedure/new/', horsekiller_views.AddMedicalProcedureView.as_view(), name='add_medical_procedure'),
+    path('medical_procedure/<pk>/', horsekiller_views.DetailMedicalProcedureView.as_view(), name='detail_medical_procedure'),
+    path('medical_procedure/<pk>/update', horsekiller_views.UpdateMedicalProcedureView.as_view(), name='update_medical_procedure'),
+    path('medical_procedure/<pk>/delete', horsekiller_views.DeleteMedicalProcedureView.as_view(), name='delete_medical_procedure'),
 ]

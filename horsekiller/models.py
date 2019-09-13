@@ -89,12 +89,15 @@ class Behaviour(CommonInfo):
 
 
 class MedicalProcedure(CommonInfo):
-    immediate_action = models.CharField(max_length=256)
-    essential_procedures = models.CharField(max_length=256)
-    other_procedures_priority = models.CharField(max_length=256)
-    owner_recommendations = models.CharField(max_length=256)
+    immediate_action = models.CharField(max_length=256, blank=True, null=True)
+    essential_procedures = models.CharField(max_length=256, blank=True, null=True)
+    other_procedures_priority = models.CharField(max_length=256, blank=True, null=True)
+    owner_recommendations = models.CharField(max_length=256, blank=True, null=True)
     surgery = models.ForeignKey('Surgery', on_delete=models.DO_NOTHING, blank=True, null=True)
     drug = models.ForeignKey('Drug', on_delete=models.DO_NOTHING, blank=True, null=True)
+
+    def get_absolute_url(self):
+        return reverse('detail_medical_procedure', kwargs={'pk': self.pk})
 
 
 class Surgery(CommonInfo):

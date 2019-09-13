@@ -206,7 +206,7 @@ class UpdateMedicalProcedureView(LoginRequiredMixin, UserPassesTestMixin, Update
             return False
 
 
-class DeleteDiagnosticView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class DeleteMedicalProcedureView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = MedicalProcedure
     success_url = '/'
 

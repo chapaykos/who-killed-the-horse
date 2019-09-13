@@ -38,7 +38,7 @@
                 <div class="dropdown-menu m">
                     <a class="dropdown-item" href="{% url 'list_disease' %}">Choroby</a>
                     <a class="dropdown-item disabled" href="#">Gatunki</a>
-                    <a class="dropdown-item disabled" href="#">Wirusy</a>
+                    <a class="dropdown-item" href="{% url 'list_medical_procedure' %}">Postępowania medyczne</a>
                     <a class="dropdown-item" href="{% url 'list_medicine' %}">Leki</a>
                     <a class="dropdown-item" href="{% url 'list_diagnostics' %}">Diagnostyki</a>
                 </div>
@@ -51,7 +51,7 @@
                     </button>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="{% url 'add_disease' %}">Chorobę</a>
-                        <a class="dropdown-item" href="#">Postępowanie medyczne</a>
+                        <a class="dropdown-item" href="{% url 'add_medical_procedure' %}">Postępowanie medyczne</a>
                         <a class="dropdown-item" href="{% url 'add_medicine' %}">Lek</a>
                         <a class="dropdown-item disabled" href="#">Gatunek</a>
                         <a class="dropdown-item" href="{% url 'add_diagnostic' %}">Diagnostykę</a>

@@ -1,0 +1,12 @@
+{% extends 'horsekiller/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <h1>Czy na pewno chcesz usunąć lek "{{ medicalprocedure.immediate_action }}"?</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            <button class="btn btn-danger" type="submit">Usuń</button>
+            <a href="{% url 'detail_medical_procedure' medicalprocedure.id %}" class="btn btn-primary">Wróć</a>
+        </div>
+    </form>
+{% endblock content %}
