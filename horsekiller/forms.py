@@ -14,3 +14,8 @@ class DiagnosticForm(forms.ModelForm):
         model = Diagnosis
         exclude = ['author']
 
+class MedicalProcedureForm(forms.ModelForm):
+    class Meta:
+        model = MedicalProcedure
+        exclude = ['author']
+

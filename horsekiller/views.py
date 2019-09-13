@@ -169,7 +169,53 @@ class DeleteDiagnosticView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return False
 
 
+# POSTĘPOWANIA MEDYCZNE
 
+class AddMedicalProcedureView(LoginRequiredMixin, CreateView):
+    model = MedicalProcedure
+    form_class = MedicalProcedureForm
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+
+class ListMedicalProcedureView(ListView):
+    model = MedicalProcedure
+    fields = '__all__'
+
+
+class DetailMedicalProcedureView(DetailView):
+    model = MedicalProcedure
+    fields = '__all__'
+
+
+class UpdateMedicalProcedureView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = MedicalProcedure
+    form_class = MedicalProcedureForm
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        medical_procedure = self.get_object()
+        if self.request.user == medical_procedure.author:
+            return True
+        else:
+            return False
+
+
+class DeleteDiagnosticView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = MedicalProcedure
+    success_url = '/'
+
+    def test_func(self):
+        medical_procedure = self.get_object()
+        if self.request.user == medical_procedure.author:
+            return True
+        else:
+            return False
 
 class SearchView(ListView):
     template_name = 'horsekiller/index.html'
